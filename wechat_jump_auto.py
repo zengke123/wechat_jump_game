@@ -76,10 +76,10 @@ def find_piece_and_board(im):
     piece_y_max = 0
     board_x = 0
     board_y = 0
-
+    im_pixel = im.load()
     for i in range(h):
         for j in range(w):
-            pixel = im.getpixel((j, i))
+            pixel=im_pixel[j,i]   
             # 根据棋子的最低行的颜色判断，找最后一行那些点的平均值，这个颜色这样应该 OK，暂时不提出来
             if (50 < pixel[0] < 60) and (53 < pixel[1] < 63) and (95 < pixel[2] < 110):
                 piece_x_sum += j
@@ -94,14 +94,14 @@ def find_piece_and_board(im):
     for i in range(h):
         if i < under_game_score_y:
             continue
-        last_pixel = im.getpixel((0, i))
+        last_pixel = im_pixel[0,i]
         if board_x or board_y:
             break
         board_x_sum = 0
         board_x_c = 0
 
         for j in range(w):
-            pixel = im.getpixel((j, i))
+            pixel = im_pixel[j,i]
             # 修掉脑袋比下一个小格子还高的情况的 bug
             if abs(j - piece_x) < piece_body_width:
                 continue
